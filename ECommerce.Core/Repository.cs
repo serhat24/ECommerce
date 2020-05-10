@@ -10,6 +10,7 @@ namespace ECommerce.Core
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         //repository
+        //Serhat Login Branch
         //master 2
         protected readonly DbContext _dbContext;
         protected readonly DbSet<TEntity> _dbSet;
