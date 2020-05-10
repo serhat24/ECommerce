@@ -14,6 +14,7 @@ namespace ECommerce.Core
         //master 2
         //Changed
         //okan first commit
+        //okan 2
         protected readonly DbContext _dbContext;
         protected readonly DbSet<TEntity> _dbSet;
         public Repository(DbContext dbContext)
