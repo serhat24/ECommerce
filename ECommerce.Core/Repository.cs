@@ -12,6 +12,7 @@ namespace ECommerce.Core
         //repository
         //Serhat Login Branch
         //master 2
+        //okan first commit
         protected readonly DbContext _dbContext;
         protected readonly DbSet<TEntity> _dbSet;
         public Repository(DbContext dbContext)
