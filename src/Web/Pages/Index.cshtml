@@ -10,15 +10,29 @@
 </section>
 <section class="esh-catalog-filters">
     <div class="container">
-        <form method="get">
-            <label class="esh-catalog-label" data-title="brand">
-                <select asp-for="@Model.CatalogModel.BrandFilterApplied" asp-items="@Model.CatalogModel.Brands" class="esh-catalog-filter"></select>
-            </label>
-            <label class="esh-catalog-label" data-title="type">
-                <select asp-for="@Model.CatalogModel.TypesFilterApplied" asp-items="@Model.CatalogModel.Types" class="esh-catalog-filter"></select>
-            </label>
-            <input class="esh-catalog-send" type="image" src="images/arrow-right.svg" />
-        </form>
+        <div class="row">
+
+            <div class="col-md-5">
+                <form method="get">
+                    <label class="esh-catalog-label" data-title="brand">
+                        <select asp-for="@Model.CatalogModel.BrandFilterApplied" asp-items="@Model.CatalogModel.Brands" class="esh-catalog-filter"></select>
+                    </label>
+                    <label class="esh-catalog-label" data-title="type">
+                        <select asp-for="@Model.CatalogModel.TypesFilterApplied" asp-items="@Model.CatalogModel.Types" class="esh-catalog-filter"></select>
+                    </label>
+                    <input class="esh-catalog-send" type="image" src="images/arrow-right.svg" />
+                </form>
+            </div>
+
+            <div class="col-md-7">
+                <form class="form-inline" method="post">
+
+                    <input asp-for="searchText" name="searchText" class="form-control center-block inputProduct" placeholder="Search" aria-label="Search">
+                    <button type="submit" class="btn btn-outline-light searchProduct" asp-page-handler="Search" title="Search">Search</button>                    
+                </form>
+            </div>
+
+        </div>
     </div>
 </section>
 <div class="container">
@@ -29,9 +43,11 @@
         <div class="esh-catalog-items row">
             @foreach (var catalogItem in Model.CatalogModel.CatalogItems)
             {
+
                 <div class="esh-catalog-item col-md-4">
                     <partial name="_product" for="@catalogItem" />
                 </div>
+
             }
         </div>
         <partial name="_pagination" for="CatalogModel.PaginationInfo" />
@@ -43,3 +59,27 @@
         </div>
     }
 </div>
+
+@section scripts{
+
+    <script>
+        $(function () {
+
+            //var searchElement = document.querySelector(".searchProduct");
+            var inputElement = document.querySelector(".inputProduct");
+            inputElement.addEventListener('keyup', function (event) {
+                let text = event.target.value;
+
+                if (text != "") {
+                    console.log(text);
+                }
+
+            })
+
+        });
+
+    </script>
+
+}
+
+
