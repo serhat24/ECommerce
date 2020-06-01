@@ -27,9 +27,18 @@ namespace Microsoft.eShopWeb.Web.Pages
         }
         public async Task OnPostSearch(CatalogIndexViewModel catalogModel, int? pageId)
         {
-            CatalogModel = 
-                await _catalogSearchService.GetCatalogItemsSearch(pageId ?? 0, Constants.ITEMS_PER_PAGE, catalogModel.BrandFilterApplied, catalogModel.TypesFilterApplied,searchText);
-           
+            if (string.IsNullOrEmpty(searchText))
+            {
+                await OnGet(catalogModel,pageId);
+            }
+            else
+            {
+                CatalogModel =
+                                await _catalogSearchService.GetCatalogItemsSearch(pageId ?? 0, Constants.ITEMS_PER_PAGE, catalogModel.BrandFilterApplied, catalogModel.TypesFilterApplied, searchText);
+                searchText = null;
+            }
+            
+
 
         }
     }

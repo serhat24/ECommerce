@@ -34,7 +34,7 @@ namespace Microsoft.eShopWeb.Web.Services
         {
             var cacheKey = CacheHelpers.GenerateCatalogItemCacheKey(pageIndex, Constants.ITEMS_PER_PAGE, brandId, typeId);
             
-            //_cache.Remove(cacheKey);//remove this Serhat
+            _cache.Remove(cacheKey);//remove this Serhat
             var catalog= await _cache.GetOrCreateAsync(cacheKey, async entry =>
             {
                 entry.SlidingExpiration = CacheHelpers.DefaultCacheDuration;
