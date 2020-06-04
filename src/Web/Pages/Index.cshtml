@@ -1,8 +1,8 @@
 ﻿@page
-@{
-    ViewData["Title"] = "Catalog";
+@{ ViewData["Title"] = "Catalog";
     @model IndexModel
 }
+
 <section class="esh-catalog-hero">
     <div class="container">
         <img class="esh-catalog-title" src="~/images/main_banner_text.png" />
@@ -24,11 +24,18 @@
                 </form>
             </div>
 
-            <div class="col-md-7">
-                <form class="form-inline" method="post">
-
-                    <input asp-for="searchText" name="searchText" class="form-control center-block inputProduct" placeholder="Search" aria-label="Search">
-                    <button type="submit" class="btn btn-outline-light searchProduct" asp-page-handler="Search" title="Search">Search</button>                    
+            <div class="col-md-7" style="height:61px">
+                <form class="form-inline form-search" style="height:61px" method="post">
+                    <div class="row form-search" style="height:61px">
+                        <div class="ui-widget form-control-static">
+                            <input asp-for="searchText" name="searchText" style="height:40px;width:426px;margin-top:6px" id="inputElement" class="form-control center-block inputProduct" placeholder="Search" aria-label="Search">
+                        </div>
+                        <div class="form-control-static" style="height:61px">
+                            <button type="submit" style="height: 40px;width: 100px; margin-top: 6px" class="btn btn-group-sm searchProduct search-input" asp-page-handler="Search" title="Search">
+                                Search
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
 
@@ -46,39 +53,60 @@
 
                 <div class="esh-catalog-item col-md-4">
                     <partial name="_product" for="@catalogItem" />
-                </div>
-
-            }
+                </div>}
         </div>
-        <partial name="_pagination" for="CatalogModel.PaginationInfo" />
-    }
+        <partial name="_pagination" for="CatalogModel.PaginationInfo" /> }
     else
     {
         <div class="esh-catalog-items row">
             THERE ARE NO RESULTS THAT MATCH YOUR SEARCH
-        </div>
-    }
+        </div>}
 </div>
 
 @section scripts{
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+          rel="stylesheet">
 
     <script>
+
         $(function () {
 
-            //var searchElement = document.querySelector(".searchProduct");
-            var inputElement = document.querySelector(".inputProduct");
-            inputElement.addEventListener('keyup', function (event) {
-                let text = event.target.value;
+            var searchValue = document.querySelector('#inputElement');
 
-                if (text != "") {
-                    console.log(text);
-                }
+            searchValue.addEventListener('keyup', function (e) {
+                let text = e.target.value;
+                getItems(text);
+            });
 
-            })
+            function getItems(name) {
 
+                fetch('/index?handler=NameSearch&term=' + name, {
+                    method: 'get',
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                    }
+                }).then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw Error('Response Not Ok');
+                    }
+                }).then(function (text) {
+                    try {
+                        $("#inputElement").autocomplete({
+                            source: text
+                        });
+                    } catch (err) {
+                        throw Error('Method Not Found');
+                    }
+                })
+            }
         });
 
     </script>
+
 
 }
 

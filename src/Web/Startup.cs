@@ -105,7 +105,7 @@ namespace Microsoft.eShopWeb.Web
             services.Configure<CatalogSettings>(Configuration);
             services.AddSingleton<IUriComposer>(new UriComposer(Configuration.Get<CatalogSettings>()));
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSender, EmailSender>(); 
 
             // Add memory cache services
             services.AddMemoryCache();
@@ -120,13 +120,17 @@ namespace Microsoft.eShopWeb.Web
             services.AddMvc(options =>
             {
                 options.Conventions.Add(new RouteTokenTransformerConvention(
-                         new SlugifyParameterTransformer()));
+                         new SlugifyParameterTransformer())
+                    
+                    );
 
             });    
             services.AddRazorPages(options =>
             {
                 options.Conventions.AuthorizePage("/Basket/Checkout");
-            });
+                
+            }).AddRazorRuntimeCompilation();
+
             services.AddControllersWithViews();
 
             services.AddHttpContextAccessor();

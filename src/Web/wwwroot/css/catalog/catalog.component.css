@@ -113,3 +113,11 @@
   text-align: center; }
   .esh-catalog-price::before {
     content: '$'; }
+
+.form-search {
+    height:61px;
+}
+
+.search-input{
+    height:49px;
+}
